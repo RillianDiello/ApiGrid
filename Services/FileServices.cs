@@ -68,7 +68,7 @@ namespace WebApplication1.Services
                 }
             }
 
-            sampleServices.SaveSamplesList(samples);
+            await sampleServices.SaveSamplesList(samples);
             return true;
         }
 

@@ -55,13 +55,13 @@ namespace WebApplication1.Controllers
             context.FilesUp.Remove(fileUp);
             await context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
              
 
         //Upload file
         [HttpPost("")]
-        public IActionResult Upload(IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment, [FromServices] _DBContext context)
+        public async Task<IActionResult> Upload(IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment, [FromServices] _DBContext context)
         {
             string fileName = $"{hostingEnvironment.ContentRootPath}\\temp\\{file.FileName}"; 
             using (FileStream fileStream = System.IO.File.Create(fileName))
@@ -69,7 +69,7 @@ namespace WebApplication1.Controllers
                 file.CopyTo(fileStream);
                 fileStream.Flush();
             }
-            fileServices.CreateFile(fileName, file.FileName);
+            await fileServices.CreateFile(fileName, file.FileName);
 
             return Ok();
         }
